@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONUNBUFFERED=1
+ENV TF_CPP_MIN_LOG_LEVEL=2
+ENV TF_ENABLE_ONEDNN_OPTS=0
 
 WORKDIR /app
 COPY requirements.txt .
