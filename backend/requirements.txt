@@ -30,7 +30,7 @@ websockets==15.0.1
 Werkzeug==3.1.4
 
 # ML / AI dependencies
-tensorflow-cpu==2.13.0
+tensorflow-cpu==2.15.0
 mediapipe==0.10.9
 opencv-python-headless
 scipy
@@ -39,7 +39,7 @@ joblib
 scikit-learn
 xgboost
 matplotlib
-numpy
+numpy<2.0
 
 # SSL cert generation
 cryptography
