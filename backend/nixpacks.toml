@@ -2,7 +2,18 @@
 nixPkgs = ["python311", "libGL", "libglib", "xorg.libxcb", "xorg.libX11", "xorg.libXext", "xorg.libXrender", "xorg.libXfixes", "mesa"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = [
+  "mkdir -p /xcblibs",
+  "find /nix/store -name 'libxcb.so*' -exec cp -L {} /xcblibs/ \\; 2>/dev/null || true",
+  "find /nix/store -name 'libX11.so*' -exec cp -L {} /xcblibs/ \\; 2>/dev/null || true",
+  "find /nix/store -name 'libXext.so*' -exec cp -L {} /xcblibs/ \\; 2>/dev/null || true",
+  "find /nix/store -name 'libXrender.so*' -exec cp -L {} /xcblibs/ \\; 2>/dev/null || true",
+  "find /nix/store -name 'libXfixes.so*' -exec cp -L {} /xcblibs/ \\; 2>/dev/null || true",
+  "find /nix/store -name 'libGL.so*' -exec cp -L {} /xcblibs/ \\; 2>/dev/null || true",
+  "find /nix/store -name 'libglib-2.0.so*' -exec cp -L {} /xcblibs/ \\; 2>/dev/null || true",
+  "echo '=== Copied libs ===' && ls /xcblibs/ || echo 'WARNING: no libs copied'",
+  "pip install -r requirements.txt"
+]
 
 [start]
-cmd = "bash start.sh"
+cmd = "LD_LIBRARY_PATH=/xcblibs:$LD_LIBRARY_PATH uvicorn main:app --host 0.0.0.0 --port $PORT"
