@@ -54,9 +54,7 @@ backend/calories_prediction/vital_signs_data.json
 backend/calories_prediction/prediction_result_*.txt
 *.log
 
-# User Uploaded Content
-backend/static/profile_pics/*
-!backend/static/profile_pics/.gitkeep
+# User Uploaded Content (committed for deployment)
 
 # ========================
 # IDE & Editor
