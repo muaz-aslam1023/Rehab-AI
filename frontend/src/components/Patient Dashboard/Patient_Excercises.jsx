@@ -146,7 +146,7 @@ export default function Patient_Excercises() {
 
   const handlePainFeedbackSubmit = async (painFeedback) => {
     try {
-      const res = await axios.post("${API_URL}/api/complete-exercise", {
+      const res = await axios.post(`${API_URL}/api/complete-exercise`, {
         patient_id: user.user_id,
         exercise_id: selectedExercise.exercise_id,
         pain_feedback: painFeedback

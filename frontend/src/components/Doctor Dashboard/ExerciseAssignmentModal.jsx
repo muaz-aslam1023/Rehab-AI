@@ -25,7 +25,7 @@ export default function ExerciseAssignmentModal({ patient, doctorId, onClose, on
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const exercisesRes = await axios.get("${API_URL}/api/exercises");
+                const exercisesRes = await axios.get(`${API_URL}/api/exercises`);
                 if (exercisesRes.data.status === "success") {
                     setExercises(exercisesRes.data.exercises);
                 }
@@ -72,7 +72,7 @@ export default function ExerciseAssignmentModal({ patient, doctorId, onClose, on
                 duration_minutes
             }));
 
-            const res = await axios.post("${API_URL}/api/assign-exercise", {
+            const res = await axios.post(`${API_URL}/api/assign-exercise`, {
                 patient_id: patient._id,
                 doctor_id: doctorId,
                 exercises: exercisesData
