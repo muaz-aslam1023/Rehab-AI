@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { API_URL } from '../../../config';
 
 export default function DailyTracker({ userId }) {
     const [weekData, setWeekData] = useState([]);
@@ -11,7 +12,7 @@ export default function DailyTracker({ userId }) {
     useEffect(() => {
         const fetchWeeklyProgress = async () => {
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/patient-exercises/${userId}`);
+                const res = await fetch(`${API_URL}/api/patient-exercises/${userId}`);
                 const data = await res.json();
 
                 if (data.status !== "success") return;

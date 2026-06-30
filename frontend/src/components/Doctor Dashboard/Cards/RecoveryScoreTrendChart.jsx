@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../../config';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
@@ -30,7 +31,7 @@ export default function RecoveryScoreTrendChart({ doctorId }) {
             setLoading(true);
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/doctor-recovery-trends/${doctorId}?days=${days}&view_mode=${viewMode}`
+                    `${API_URL}/api/doctor-recovery-trends/${doctorId}?days=${days}&view_mode=${viewMode}`
                 );
 
                 if (res.data.status === 'success') {

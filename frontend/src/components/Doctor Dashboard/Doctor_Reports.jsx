@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { API_URL } from "../../config";
 import { motion } from "framer-motion";
 import PatientSelector from "./PatientSelector";
 import PainHeatmap from "../Patient Dashboard/Cards/PainHeatmap";
@@ -48,7 +49,7 @@ const Doctor_Reports = () => {
         const fetchPatients = async () => {
             if (user?.user_id) {
                 try {
-                    const res = await axios.get(`http://127.0.0.1:8000/api/patients/${user.user_id}`);
+                    const res = await axios.get(`${API_URL}/api/patients/${user.user_id}`);
                     if (res.data.status === "success") {
                         setPatients(res.data.patients);
                         if (res.data.patients.length > 0) {
@@ -71,7 +72,7 @@ const Doctor_Reports = () => {
             if (selectedPatientId) {
                 setLoading(true);
                 try {
-                    const res = await axios.get(`http://127.0.0.1:8000/api/patient/reports/${selectedPatientId}`);
+                    const res = await axios.get(`${API_URL}/api/patient/reports/${selectedPatientId}`);
                     if (res.data.status === "success" && res.data.data) {
                         setReportData(res.data.data);
                     } else {

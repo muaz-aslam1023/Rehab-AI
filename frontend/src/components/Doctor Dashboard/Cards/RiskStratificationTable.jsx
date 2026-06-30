@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { API_URL } from '../../../config';
 import { FaSort, FaSortUp, FaSortDown, FaSearch } from 'react-icons/fa';
 
 export default function RiskStratificationTable({ doctorId }) {
@@ -17,7 +18,7 @@ export default function RiskStratificationTable({ doctorId }) {
 
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/doctor-patient-risks/${doctorId}`
+                    `${API_URL}/api/doctor-patient-risks/${doctorId}`
                 );
 
                 if (res.data.status === 'success') {

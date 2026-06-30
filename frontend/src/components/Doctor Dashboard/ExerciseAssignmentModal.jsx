@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_URL } from "../../config";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     X,
@@ -24,12 +25,12 @@ export default function ExerciseAssignmentModal({ patient, doctorId, onClose, on
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const exercisesRes = await axios.get("http://127.0.0.1:8000/api/exercises");
+                const exercisesRes = await axios.get("${API_URL}/api/exercises");
                 if (exercisesRes.data.status === "success") {
                     setExercises(exercisesRes.data.exercises);
                 }
 
-                const assignedRes = await axios.get(`http://127.0.0.1:8000/api/patient-exercises/${patient._id}`);
+                const assignedRes = await axios.get(`${API_URL}/api/patient-exercises/${patient._id}`);
                 if (assignedRes.data.status === "success") {
                     setAssignedExercises(assignedRes.data.exercises || []);
                 }
@@ -71,7 +72,7 @@ export default function ExerciseAssignmentModal({ patient, doctorId, onClose, on
                 duration_minutes
             }));
 
-            const res = await axios.post("http://127.0.0.1:8000/api/assign-exercise", {
+            const res = await axios.post("${API_URL}/api/assign-exercise", {
                 patient_id: patient._id,
                 doctor_id: doctorId,
                 exercises: exercisesData

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, ShieldCheck } from 'lucide-react';
+import { API_URL } from '../../../config';
 
 const PatientPhysioCard = ({ physio }) => {
     // Graceful fallback if data isn't loaded yet
@@ -22,7 +23,7 @@ const PatientPhysioCard = ({ physio }) => {
                 <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-slate-700/50 shadow-md">
                     {profilePic ? (
                         <img
-                            src={`http://localhost:8000/static/profile_pics/${profilePic}`}
+                            src={`${API_URL}/static/profile_pics/${profilePic}`}
                             alt={name}
                             className="w-full h-full object-cover"
                         />

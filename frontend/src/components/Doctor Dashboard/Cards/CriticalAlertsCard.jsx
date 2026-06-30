@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_URL } from '../../../config';
 import { FaExclamationTriangle, FaChartLine, FaHeartbeat, FaClock } from 'react-icons/fa';
 
 export default function CriticalAlertsCard({ doctorId }) {
@@ -13,7 +14,7 @@ export default function CriticalAlertsCard({ doctorId }) {
 
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/doctor-alerts/${doctorId}`
+                    `${API_URL}/api/doctor-alerts/${doctorId}`
                 );
 
                 if (res.data.status === 'success') {

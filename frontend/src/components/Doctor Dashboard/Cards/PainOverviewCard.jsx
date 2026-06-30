@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { API_URL } from '../../../config';
 import { FaHeartbeat } from 'react-icons/fa';
 
 export default function PainOverviewCard({ doctorId }) {
@@ -13,7 +14,7 @@ export default function PainOverviewCard({ doctorId }) {
 
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/doctor-pain-overview/${doctorId}`
+                    `${API_URL}/api/doctor-pain-overview/${doctorId}`
                 );
 
                 if (res.data.status === 'success') {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { API_URL } from '../../../config';
 import { Activity, Brain, CheckCircle, TrendingUp } from 'lucide-react';
 
 const MetricCard = ({ label, value, icon: Icon, color, delay, changeType }) => (
@@ -50,7 +51,7 @@ export default function DoctorOverviewStats({ doctorId }) {
 
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/doctor-overview/${doctorId}`
+                    `${API_URL}/api/doctor-overview/${doctorId}`
                 );
 
                 if (res.data.status === 'success') {

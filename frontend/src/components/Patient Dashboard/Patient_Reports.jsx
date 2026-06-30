@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { API_URL } from "../../config";
 import { motion } from "framer-motion";
 import PainHeatmap from "./Cards/PainHeatmap";
 import {
@@ -40,7 +41,7 @@ const Patient_Reports = () => {
             if (user?.user_id) {
                 try {
                     // Fetch Aggregated Report Data directly
-                    const res = await axios.get(`http://127.0.0.1:8000/api/patient/reports/${user.user_id}`);
+                    const res = await axios.get(`${API_URL}/api/patient/reports/${user.user_id}`);
                     if (res.data.status === "success" && res.data.data) {
                         setReportData(res.data.data);
                     } else {

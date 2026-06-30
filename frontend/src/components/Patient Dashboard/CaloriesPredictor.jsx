@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { useAuth } from '../../context/AuthContext';
+import { WS_URL } from '../../config';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Heart,
@@ -124,7 +125,7 @@ const CaloriesPredictor = () => {
         setProgress(0);
         setStats({ heart_rate: 0, temperature: 0, face_detected: false });
 
-        const ws = new WebSocket('ws://127.0.0.1:8000/ws/calories/vital-signs');
+        const ws = new WebSocket(`${WS_URL}/ws/calories/vital-signs`);
         wsRef.current = ws;
 
         ws.onopen = () => {

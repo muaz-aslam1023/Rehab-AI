@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { API_URL } from "../../config";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Users,
@@ -57,7 +58,7 @@ const MetricCard = ({ icon: Icon, label, value, color, delay = 0, unit }) => (
 );
 
 const PatientRow = ({ patient, index, onAssign }) => {
-    const profilePicUrl = patient.profile_picture ? `http://localhost:8000/static/profile_pics/${patient.profile_picture}` : null;
+    const profilePicUrl = patient.profile_picture ? `${API_URL}/static/profile_pics/${patient.profile_picture}` : null;
 
     return (
         <motion.tr
@@ -176,7 +177,7 @@ export default function Patients_Overview() {
         const fetchPatients = async () => {
             if (user && user.user_id) {
                 try {
-                    const res = await axios.get(`http://127.0.0.1:8000/api/patients/${user.user_id}`);
+                    const res = await axios.get(`${API_URL}/api/patients/${user.user_id}`);
                     if (res.data.status === "success") {
                         setPatients(res.data.patients);
                     }

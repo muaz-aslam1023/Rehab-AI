@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { API_URL } from '../../../config';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 import { ClipboardCheck } from 'lucide-react';
 
@@ -14,7 +15,7 @@ export default function ExerciseComplianceCard({ doctorId }) {
 
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/doctor-exercise-compliance/${doctorId}?days=30`
+                    `${API_URL}/api/doctor-exercise-compliance/${doctorId}?days=30`
                 );
 
                 if (res.data.status === 'success') {

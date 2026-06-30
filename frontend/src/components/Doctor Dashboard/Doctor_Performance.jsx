@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { API_URL } from "../../config";
 import { motion, AnimatePresence } from "framer-motion";
 import PatientSelector from "./PatientSelector";
 import {
@@ -58,7 +59,7 @@ const Doctor_Performance = () => {
         const fetchPatients = async () => {
             if (user?.user_id) {
                 try {
-                    const res = await axios.get(`http://127.0.0.1:8000/api/patients/${user.user_id}`);
+                    const res = await axios.get(`${API_URL}/api/patients/${user.user_id}`);
                     if (res.data.status === "success") {
                         setPatients(res.data.patients);
                         if (res.data.patients.length > 0) {
@@ -81,7 +82,7 @@ const Doctor_Performance = () => {
             if (selectedPatientId) {
                 setLoading(true);
                 try {
-                    const res = await axios.get(`http://127.0.0.1:8000/api/patient/performance/${selectedPatientId}?exercise=Plank`);
+                    const res = await axios.get(`${API_URL}/api/patient/performance/${selectedPatientId}?exercise=Plank`);
                     if (res.data.status === "success") {
                         setPerformanceData(res.data.data);
                         // Default to latest session if available

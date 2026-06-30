@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BodyComponent as HumanBody } from "@darshanpatel2608/human-body-react";
+import { API_URL } from '../../../config';
 
 const BODY_PARTS = [
     "head", "neck",
@@ -63,7 +64,7 @@ export default function PainHeatmap({ userId }) {
         const fetchPainHistory = async () => {
             try {
                 // Fetch pain history with recovery status
-                const res = await fetch(`http://127.0.0.1:8000/api/patient-pain-history/${userId}`);
+                const res = await fetch(`${API_URL}/api/patient-pain-history/${userId}`);
                 const data = await res.json();
 
                 if (data.status !== "success") return;

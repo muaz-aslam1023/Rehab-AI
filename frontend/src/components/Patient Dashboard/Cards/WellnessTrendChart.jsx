@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../../config';
 import {
     AreaChart,
     Area,
@@ -23,7 +24,7 @@ export default function WellnessTrendChart({ userId }) {
             setLoading(true);
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/recovery-metrics/${userId}?days=${period}`
+                    `${API_URL}/api/recovery-metrics/${userId}?days=${period}`
                 );
 
                 if (res.data.status === 'success') {
