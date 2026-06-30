@@ -29,7 +29,7 @@ class PoseAnalyzer:
         
         # Load model
         try:
-            self.model = keras.models.load_model(model_path)
+            self.model = keras.models.load_model(model_path, compile=False, safe_mode=False)
             print("Model loaded successfully!")
         except Exception as e:
             print(f"Error loading model: {e}")
