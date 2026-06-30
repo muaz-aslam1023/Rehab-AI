@@ -7,6 +7,7 @@ from routes.doctor_routes import doctor_routes
 from routes.ml_routes import ml_routes
 from routes.calories_routes import router as calories_router
 from contextlib import asynccontextmanager
+import asyncio
 import os
 import sys
 from token_manager import token_manager
@@ -64,26 +65,44 @@ def ensure_ssl_certs():
     return cert_path, key_path
 
 
+def _tcp_task_done_callback(task: "asyncio.Task"):
+    """Called when the TCP server task finishes for any reason."""
+    if task.cancelled():
+        print("[TCP Server] Task was cancelled (normal shutdown).")
+        return
+    exc = task.exception()
+    if exc is not None:
+        import traceback
+        print(
+            f"[TCP Server] ‼️  Task exited with an exception — TCP server is DOWN.\n"
+            f"{''.join(traceback.format_exception(type(exc), exc, exc.__traceback__))}"
+        )
+    else:
+        print("[TCP Server] ⚠️  Task exited cleanly but unexpectedly — TCP server is no longer running.")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Ensure SSL certs exist for TCP TLS server
     ensure_ssl_certs()
 
+    tcp_task = None
     try:
-        # Start TCP Server in background
         tcp_task = asyncio.create_task(start_tcp_server())
+        tcp_task.add_done_callback(_tcp_task_done_callback)
+        print("[Lifespan] TCP server task created.")
+    except Exception as e:
+        print(f"[Lifespan] ❌ Failed to create TCP server task: {e}")
 
+    try:
         yield
-
-        # Shutdown
-        tcp_task.cancel()
-        try:
-            await tcp_task
-        except asyncio.CancelledError:
-            pass
-
     finally:
-        pass
+        if tcp_task is not None and not tcp_task.done():
+            tcp_task.cancel()
+            try:
+                await tcp_task
+            except (asyncio.CancelledError, Exception):
+                pass
 
 
 app = FastAPI(lifespan=lifespan)
@@ -118,7 +137,6 @@ async def validate_stream_token(token: str):
 # --- NATIVE TCP RECEIVER (Socket Programming) ---
 from tcp_control_flow.socket_wrapper import SocketWrapper
 from tcp_control_flow import ReliableReceiver
-import asyncio
 import json
 
 TCP_PORT = 65432
@@ -198,8 +216,8 @@ async def start_tcp_server():
         ssl_context.load_cert_chain(certfile=cert_path, keyfile=key_path)
         print(f"🔐 Loaded SSL Certs from {cert_path}")
     except Exception as e:
-        print(f"❌ Failed to load SSL Certs: {e}")
-        return
+        print(f"❌ Failed to load SSL certs: {e}")
+        raise RuntimeError(f"TCP server cannot start — SSL cert load failed: {e}") from e
 
     try:
         server = await asyncio.start_server(
