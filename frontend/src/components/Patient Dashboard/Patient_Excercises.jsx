@@ -117,7 +117,7 @@ export default function Patient_Excercises() {
     if (exercise.exercise_name.toLowerCase().includes('plank')) {
       try {
         // Generate token for video feed
-        const response = await axios.post('${API_URL}/api/video/generate-token', {
+        const response = await axios.post(`${API_URL}/api/video/generate-token`, {
           patient_id: user.user_id,
           exercise_name: exercise.exercise_name,
           exercise_id: exercise.exercise_id
