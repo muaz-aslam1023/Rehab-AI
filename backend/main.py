@@ -277,6 +277,8 @@ except Exception as e:
 @app.websocket("/ws/pose-analysis/{token}")
 async def websocket_pose_analysis(websocket: WebSocket, token: str):
     """Real-time pose analysis WebSocket (merged from ml_server.py)."""
+    await websocket.accept()
+
     if not _ML_AVAILABLE:
         await websocket.close(code=1011, reason="ML service unavailable")
         return
@@ -289,8 +291,6 @@ async def websocket_pose_analysis(websocket: WebSocket, token: str):
 
     current_patient_id = token_data.get("patient_id")
     current_exercise_id = token_data.get("exercise_id")
-
-    await websocket.accept()
 
     pose_analyzer = PoseAnalyzer()
     pose_analyzer.reset_session()
