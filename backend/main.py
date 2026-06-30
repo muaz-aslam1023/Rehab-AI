@@ -201,14 +201,16 @@ async def start_tcp_server():
         print(f"❌ Failed to load SSL Certs: {e}")
         return
 
-    server = await asyncio.start_server(
-        handle_tcp_client, '127.0.0.1', TCP_PORT, ssl=ssl_context)
-
-    addr = server.sockets[0].getsockname()
-    print(f"🚀 TCP Socket Server (TLS) listening on {addr}")
-
-    async with server:
-        await server.serve_forever()
+    try:
+        server = await asyncio.start_server(
+            handle_tcp_client, '127.0.0.1', TCP_PORT, ssl=ssl_context)
+        addr = server.sockets[0].getsockname()
+        print(f"🚀 TCP Socket Server (TLS) listening on {addr}")
+        async with server:
+            await server.serve_forever()
+    except Exception as e:
+        print(f"❌ TCP Server error: {e}")
+        raise
 
 
 # --- TCP RELIABLE RECEIVER ENDPOINT (WebSocket fallback) ---
