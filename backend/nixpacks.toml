@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["python311", "libGL", "libglib"]
+nixPkgs = ["python311", "libGL", "libglib", "xorg.libxcb", "xorg.libX11", "xorg.libXext", "xorg.libXrender", "xorg.libXfixes", "mesa"]
 
 [phases.install]
 cmds = ["pip install -r requirements.txt"]
