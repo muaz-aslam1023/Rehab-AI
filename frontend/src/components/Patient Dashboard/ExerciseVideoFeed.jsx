@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import { motion, AnimatePresence } from "framer-motion";
 import PainFeedbackModal from './PainFeedbackModal';
+import { WS_URL } from '../../config';
 
 // Helper to dynamically load scripts
 const loadScript = (src) => {
@@ -88,8 +89,7 @@ export default function ExerciseVideoFeed() {
     useEffect(() => {
         if (!token) return;
 
-        // Connect directly to ML server on port 8001
-        const wsUrl = `ws://127.0.0.1:8001/ws/pose-analysis/${token}`;
+        const wsUrl = `${WS_URL}/ws/pose-analysis/${token}`;
         const ws = new WebSocket(wsUrl);
         wsRef.current = ws;
 

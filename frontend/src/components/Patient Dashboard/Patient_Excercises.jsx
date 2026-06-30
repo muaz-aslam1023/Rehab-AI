@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { API_URL } from "../../config";
 import StatCard from "./Cards/StatCard";
 import PainFeedbackModal from "./PainFeedbackModal";
 import { FaDumbbell, FaCheckCircle, FaClock, FaTimesCircle, FaPlay, FaCalendarAlt, FaHashtag, FaInfoCircle, FaCalendar, FaList } from "react-icons/fa";
@@ -37,7 +38,7 @@ export default function Patient_Excercises() {
         try {
           if (groupByDate) {
             // Use advanced endpoint with date grouping
-            const res = await axios.get(`http://127.0.0.1:8000/api/patient-exercises-advanced/${user.user_id}`);
+            const res = await axios.get(`${API_URL}/api/patient-exercises-advanced/${user.user_id}`);
 
             if (res.data.status === "success") {
               const grouped = res.data.grouped_exercises || {};
@@ -62,7 +63,7 @@ export default function Patient_Excercises() {
             }
           } else {
             // Use regular endpoint with flat sorted list (pending → completed → missed)
-            const res = await axios.get(`http://127.0.0.1:8000/api/patient-exercises/${user.user_id}`);
+            const res = await axios.get(`${API_URL}/api/patient-exercises/${user.user_id}`);
 
             if (res.data.status === "success") {
               const exerciseList = res.data.exercises || [];
@@ -116,7 +117,7 @@ export default function Patient_Excercises() {
     if (exercise.exercise_name.toLowerCase().includes('plank')) {
       try {
         // Generate token for video feed
-        const response = await axios.post('http://127.0.0.1:8000/api/video/generate-token', {
+        const response = await axios.post('${API_URL}/api/video/generate-token', {
           patient_id: user.user_id,
           exercise_name: exercise.exercise_name,
           exercise_id: exercise.exercise_id
@@ -145,7 +146,7 @@ export default function Patient_Excercises() {
 
   const handlePainFeedbackSubmit = async (painFeedback) => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/complete-exercise", {
+      const res = await axios.post("${API_URL}/api/complete-exercise", {
         patient_id: user.user_id,
         exercise_id: selectedExercise.exercise_id,
         pain_feedback: painFeedback
@@ -157,7 +158,7 @@ export default function Patient_Excercises() {
 
         // Refresh exercise list using appropriate endpoint
         if (groupByDate) {
-          const refreshRes = await axios.get(`http://127.0.0.1:8000/api/patient-exercises-advanced/${user.user_id}`);
+          const refreshRes = await axios.get(`${API_URL}/api/patient-exercises-advanced/${user.user_id}`);
           if (refreshRes.data.status === "success") {
             const grouped = refreshRes.data.grouped_exercises || {};
             setGroupedExercises(grouped);
@@ -179,7 +180,7 @@ export default function Patient_Excercises() {
             });
           }
         } else {
-          const refreshRes = await axios.get(`http://127.0.0.1:8000/api/patient-exercises/${user.user_id}`);
+          const refreshRes = await axios.get(`${API_URL}/api/patient-exercises/${user.user_id}`);
           if (refreshRes.data.status === "success") {
             const exerciseList = refreshRes.data.exercises || [];
             setExercises(exerciseList);

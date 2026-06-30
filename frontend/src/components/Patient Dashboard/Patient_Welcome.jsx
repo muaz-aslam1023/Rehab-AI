@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { API_URL } from "../../config";
 
 export default function PatientWelcome({ onComplete }) {
   const { user } = useAuth();
   const [audioLevel, setAudioLevel] = useState(0);
   const animationFrameRef = useRef(null);
 
-  const profilePicUrl = `http://localhost:8000/static/profile_pics/${user.user_image}`
+  const profilePicUrl = `${API_URL}/static/profile_pics/${user.user_image}`
 
   useEffect(() => {
     const timer = setTimeout(() => {

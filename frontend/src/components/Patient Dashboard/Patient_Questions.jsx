@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { API_URL } from "../../config";
 
 export default function PatientQuestions({ user, onSubmit }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -42,7 +43,7 @@ export default function PatientQuestions({ user, onSubmit }) {
     }
   ];
 
-  const profilePicUrl = `http://localhost:8000/static/profile_pics/${user.user_image}`;
+  const profilePicUrl = `${API_URL}/static/profile_pics/${user.user_image}`;
 
   // ---------------- Helper functions for mapping emojis to numbers ----------------
   function mapSleepToHours(emoji) {
@@ -98,7 +99,7 @@ export default function PatientQuestions({ user, onSubmit }) {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/activity/save", {
+      const response = await fetch(`${API_URL}/api/activity/save`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

@@ -30,9 +30,9 @@ class CaloriePredictionRequest(BaseModel):
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CALORIES_DIR = os.path.join(BASE_DIR, "calories_prediction")
 
-# Venv Paths
-VENV_P1_PYTHON = os.path.join(CALORIES_DIR, "venv_p1", "Scripts", "python.exe")
-VENV_P2_PYTHON = os.path.join(CALORIES_DIR, "venv_p2", "Scripts", "python.exe")
+# Use the current Python interpreter (works on both Windows dev and Linux/Railway)
+VENV_P1_PYTHON = sys.executable
+VENV_P2_PYTHON = sys.executable
 
 PREDICT1_SCRIPT = os.path.join(CALORIES_DIR, "predict1.py")
 PREDICT2_SCRIPT = os.path.join(CALORIES_DIR, "predict2.py")

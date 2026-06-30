@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { API_URL } from "../../config";
 import { motion } from "framer-motion";
 import Clock from "./Cards/Clock";
 import ActivityHeatmap from "./Cards/UserActivityHeatmap";
@@ -48,7 +49,7 @@ export default function Patient_Overview() {
     const fetchActivity = async () => {
       if (user && user.user_id) {
         try {
-          const res = await axios.get(`http://127.0.0.1:8000/api/activity/today/${user.user_id}`);
+          const res = await axios.get(`${API_URL}/api/activity/today/${user.user_id}`);
           if (res.data.status === "success" && res.data.data) {
             setTodayStatus({
               mood: res.data.data.mood || 3,
@@ -71,7 +72,7 @@ export default function Patient_Overview() {
         try {
           // Fetch exercises
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/patient-exercises/${user.user_id}`
+            `${API_URL}/api/patient-exercises/${user.user_id}`
           );
           const exercises = response.data.exercises || [];
 
@@ -104,7 +105,7 @@ export default function Patient_Overview() {
       if (user?.user_therapist) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/users/${user.user_therapist}`
+            `${API_URL}/api/users/${user.user_therapist}`
           );
           if (response.data.status === 'success' && response.data.user) {
             setPhysiotherapist(response.data.user);

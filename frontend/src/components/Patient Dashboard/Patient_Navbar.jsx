@@ -2,6 +2,7 @@ import { FaUser, FaClipboardList, FaDumbbell, FaChartLine, FaFileAlt, FaBars, Fa
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { API_URL } from "../../config";
 
 export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -10,7 +11,7 @@ export default function Navbar() {
   const currentPath = location.pathname;
 
   const { user, logout } = useAuth();
-  const profilePicUrl = `http://localhost:8000/static/profile_pics/${user?.user_image}`;
+  const profilePicUrl = `${API_URL}/static/profile_pics/${user?.user_image}`;
 
   const handleLogout = () => {
     logout();
